@@ -1,0 +1,20 @@
+<receipt xmlns:int="int" xmlns:json="json" xmlns:float="float" xmlns:path="path">
+    <body>
+        <heading txt="{{ '-'*42 }}" />
+        <heading path:txt="README.md" />
+        <heading txt="My Beautiful shop" align="center" />
+        <heading txt="{{ '-'*42 }}" />
+        <heading txt="Receipt no. {{number|tojson}}" />
+        <heading txt="Date: {{ date }}" align="right" />
+        <heading txt="Operator {{ operator}}" align="center" />
+        <heading txt="{{'-'*42}}" />
+        {% for desc, amount in items %}
+            <row desc="{{desc}}" float:amount="{{amount}}" />
+        {% endfor %}
+        <subtotal />
+        {% if coupon %}
+            <row json:desc="{{ ('Coupon %s'|format(coupon.code)) | tojson }}" float:amount="{{ coupon.amount }}" align="center" />
+        {% endif %}
+        <total />
+    </body>
+</receipt>

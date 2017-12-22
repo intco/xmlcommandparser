@@ -73,5 +73,5 @@ class XmlDocument(object):
             self.document_args = {}
 
         self.source = tmpl.render(**self.document_args)
-        parser = self.parser_obj(self)
-        return parser
+        self.parser = self.parser_obj(self)
+        return self.parser

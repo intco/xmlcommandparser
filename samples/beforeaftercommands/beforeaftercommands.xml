@@ -1,0 +1,20 @@
+<receipt xmlns:int="int" xmlns:json="json" xmlns:float="float" xmlns:path="path" int:row_width="84">
+    <header json:align="{{'left' | tojson}}">
+        <heading txt="This goes in the header aligned to section default" />
+        <heading txt="This goes in the header aligned left" align="left" />
+        <heading txt="This goes in the header aligned right" align="right" />
+        <heading txt="This goes in the header aligned center" align="center" />
+    </header>
+    <body align="center">
+        <heading txt="This goes in the body aligned to section default" />
+        <heading txt="This goes in the body aligned left" align="left" />
+        <heading txt="This goes in the body aligned right" align="right" />
+        <heading txt="This goes in the body aligned center" align="center" />
+    </body>
+    <footer align="right">
+        <heading txt="This goes in the footer aligned to section default" />
+        <heading txt="This goes in the footer aligned left" align="left" />
+        <heading txt="This goes in the footer aligned right" align="right" />
+        <heading txt="This goes in the footer aligned center" align="center" />
+    </footer>
+</receipt>

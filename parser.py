@@ -26,7 +26,7 @@ class XmlCommandParser(object):
         container = self.root.find(root_tag)
 
         if hasattr(obj, 'before_commands'):
-            obj.before_commands(container=container, parent=root_tag)
+            obj.before_commands(container=container)
 
         for command in container.getchildren():
             fnc = getattr(obj, command.tag, None)
@@ -37,7 +37,7 @@ class XmlCommandParser(object):
             kwargs = self.normalize_xml_attributes(command)
 
             if hasattr(obj, 'before_command'):
-                kwargs = obj.before_command(container=container, parent=root_tag, element=command, kwargs=kwargs)
+                kwargs = obj.before_command(container=container, element=command, kwargs=kwargs)
 
             if fnc:
                 try:
@@ -49,11 +49,11 @@ class XmlCommandParser(object):
                 raise InvalidCommandException("Invalid command: {tag} not found".format(tag=command.tag))
 
             if hasattr(obj, 'after_command'):
-                obj.after_command(container=container, parent=root_tag, element=command, kwargs=kwargs)
+                obj.after_command(container=container, element=command, kwargs=kwargs)
 
 
         if hasattr(obj, 'after_commands'):
-            obj.after_commands(container=container, parent=root_tag)
+            obj.after_commands(container=container)
 
     def normalize_xml_attributes(self, element):
         """removes the namespace from the attribute name"""

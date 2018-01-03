@@ -24,7 +24,7 @@ class LoaderWithMacro(FileSystemLoader):
 class XmlDocument(object):
     """An instance of XmlDocument is a bridge between an xml document and a python object"""
     # pylint: disable=too-many-instance-attributes,too-many-arguments,line-too-long
-    def __init__(self, path, name, args=None, filters=None, macro="", parser=XmlCommandParser, loader=LoaderWithMacro):
+    def __init__(self, path, name, args=None, filters=None, macro="", parser=None, loader=None):
         """:param str: path the path to the jinja2 templates folder
         :param str: name template name to parse
         :param dict: args template args
@@ -35,6 +35,13 @@ class XmlDocument(object):
 
             .. see also: http://jinja.pocoo.org/docs/2.10/api/#loaders
         """
+
+        if not parser:
+            parser = XmlCommandParser
+
+        if not loader:
+            loader = LoaderWithMacro
+
         self.document_args = args
         self.document_path = path
         self.document_name = name

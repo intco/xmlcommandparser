@@ -66,11 +66,15 @@ class XmlCommandParser(object):
 
         return attrs
 
+    def apply_document_args(self, attrvalue):
+        """format() attrvalue using document_args"""
+        return attrvalue.format(**self.document.document_args)
+
     def get_xml_attr(self, element, attrname):
         """parse attribute value using the namespace"""
         attrvalue = element.get(attrname)
         if attrvalue:
-            return attrvalue
+            return self.apply_document_args(attrvalue)
         else:
             # has a namespace
             regex = re.compile(r'(^\{.*\})('+attrname+')')
@@ -95,10 +99,9 @@ class XmlCommandParser(object):
         elif fmt == '{json}':
             try:
                 value = fromjson(value)
-                try:
-                    return value % self.document.document_args
-                except TypeError:
-                    return value
+                if hasattr(value, 'format'):
+                    value = self.apply_document_args(value)
+                return value
             except ValueError as err:
                 errmsg = "Can not parse {value} as json: {err}"
                 raise InvalidAttrException(errmsg.format(value=value, err=err))

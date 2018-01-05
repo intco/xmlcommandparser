@@ -44,7 +44,10 @@ class XmlCommandParser(object):
                     fnc(**kwargs)
                 except Exception as err:
                     errmsg = "Error parsing command: {tag} with args {args}. {err}"
-                    raise InvalidCommandException(errmsg.format(tag=command.tag, args=kwargs, err=err))
+                    import sys, traceback
+                    exc = sys.exc_info()
+                    errstr = ''.join(traceback.format_exception(*exc))
+                    raise InvalidCommandException(errmsg.format(tag=command.tag, args=kwargs, err=errstr))
             else:
                 raise InvalidCommandException("Invalid command: {tag} not found".format(tag=command.tag))
 

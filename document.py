@@ -3,7 +3,7 @@ A bridge between an xml document (formerly a jinja2 template) and a python objec
 """
 from jinja2 import Environment, FileSystemLoader
 from xmlcommandparser.parser import XmlCommandParser
-from xmlcommandparser.helpers import tojson, sanitize_filepath
+from xmlcommandparser.helpers import tojson, sanitize_filepath, MACRO
 
 class LoaderWithMacro(FileSystemLoader):
     """Custom jinja2 loader that injects macro from string"""
@@ -47,7 +47,7 @@ class XmlDocument(object):
         self.document_name = name
         self.filters = filters
         self.source = ''
-        self.macro = macro
+        self.macro = MACRO+macro
         self.env_loader = loader
         self.parser_obj = parser
         self.parser = None

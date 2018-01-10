@@ -42,3 +42,21 @@ def xmlcommand(fnc):
     """Decorator for marking functions as xml command"""
     fnc.__xmlcommand__ = True
     return fnc
+
+MACRO="""
+{%- macro attr_json(key, value) -%}
+    json:{{key}}="{{value|tojson}}"
+{%- endmacro -%}
+
+{%- macro attr_int(key, value) -%}
+   int:{{key}}="{{value|string}}"
+{%- endmacro -%}
+
+{%- macro attr_float(key, value) -%}
+   float:{{key}}="{{value|string}}"
+{%- endmacro -%}
+
+{%- macro attr_path(key, value) -%}
+   path:{{key}}="{{value|string}}"
+{%- endmacro -%}
+"""

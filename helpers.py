@@ -25,7 +25,6 @@ def tojson(value):
     :param mixed: value
     :return: str the value in json format
     """
-
     if hasattr(value, 'replace'):
         value = value.replace('"', '&quot;')
 
@@ -36,7 +35,11 @@ def fromjson(value):
     :param mixed: value
     :return: str the value in json format
     """
-    return json.loads(value).replace('&quot;', '"')
+    value = json.loads(value)
+    if hasattr(value, 'replace'):
+        value = value.replace('&quot;', '"')
+
+    return value
 
 def xmlcommand(fnc):
     """Decorator for marking functions as xml command"""

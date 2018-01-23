@@ -102,12 +102,14 @@ class XmlCommandParser(object):
         elif fmt == '{json}':
             try:
                 value = fromjson(value)
-                if hasattr(value, 'format'):
-                    value = self.apply_document_args(value)
-                return value
             except ValueError as err:
                 errmsg = "Can not parse {value} as json: {err}"
                 raise InvalidAttrException(errmsg.format(value=value, err=err))
+                
+            if hasattr(value, 'format'):
+                value = self.apply_document_args(value)
+            return value
+
         elif fmt == '{float}':
             try:
                 return float(value)

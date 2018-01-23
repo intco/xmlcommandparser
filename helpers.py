@@ -36,7 +36,7 @@ def fromjson(value):
     :param mixed: value
     :return: str the value in json format
     """
-    return json.loads(value.replace('&quot;', '"'))
+    return json.loads(value).replace('&quot;', '"')
 
 def xmlcommand(fnc):
     """Decorator for marking functions as xml command"""

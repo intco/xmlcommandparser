@@ -71,7 +71,12 @@ class XmlCommandParser(object):
 
     def apply_document_args(self, attrvalue):
         """format() attrvalue using document_args"""
-        return attrvalue.format(**self.document.document_args)
+        attrvalue = attrvalue.replace('{{', '[[')
+        attrvalue = attrvalue.replace('}}', ']]')
+        formatted = attrvalue.format(**self.document.document_args)
+        formatted = formatted.replace('[[', '{{')
+        formatted = formatted.replace(']]', '}}')
+        return formatted
 
     def get_xml_attr(self, element, attrname):
         """parse attribute value using the namespace"""

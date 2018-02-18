@@ -30,6 +30,9 @@ class XmlCommandParser(object):
 
         for command in container.getchildren():
             fnc = getattr(obj, command.tag, None)
+            
+            if not fnc:
+                raise InvalidCommandException("Invalid command: {tag} not found".format(tag=command.tag))
 
             if not hasattr(fnc, '__xmlcommand__'):
                 raise InvalidCommandException('Invalid command {}, does not match any callables'.format(command.tag))
@@ -39,17 +42,15 @@ class XmlCommandParser(object):
             if hasattr(obj, 'before_command'):
                 kwargs = obj.before_command(container=container, element=command, kwargs=kwargs)
 
-            if fnc:
-                try:
-                    fnc(**kwargs)
-                except Exception as err:
-                    errmsg = "Error parsing command: {tag} with args {args}. {err}"
-                    import sys, traceback
-                    exc = sys.exc_info()
-                    errstr = ''.join(traceback.format_exception(*exc))
-                    raise InvalidCommandException(errmsg.format(tag=command.tag, args=kwargs, err=errstr))
-            else:
-                raise InvalidCommandException("Invalid command: {tag} not found".format(tag=command.tag))
+            try:
+                fnc(**kwargs)
+            except Exception as err:
+                errmsg = "Error parsing command: {tag} with args {args}. {err}"
+                import sys, traceback
+                exc = sys.exc_info()
+                errstr = ''.join(traceback.format_exception(*exc))
+                raise InvalidCommandException(errmsg.format(tag=command.tag, args=kwargs, err=errstr))
+                
 
             if hasattr(obj, 'after_command'):
                 obj.after_command(container=container, element=command, kwargs=kwargs)
